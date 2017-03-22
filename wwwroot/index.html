@@ -2,9 +2,94 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<title>form表单提交</title>
+	<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.js"></script>
+	<script src="main.js"></script>
 </head>
 <body>
-	
+	<h1>提交质料</h1>
+	<!--form表单提交-->
+	<!--<form class="form" method="get" action="/user">
+		<input type="text" class="name" name="name" value=""/>
+		<input type="tel" class="phone" name="phone" id="phone" value="" />
+		<input class="submit" type="button" value="提交"/>
+	</form>-->
+	<form class="form">
+		<input type="text" class="name" id="name" name="name" value=""/>
+		<input type="tel" class="phone" name="phone" id="phone" value="" />
+		<input type="button" class="submit"  value="提交"/>
+	</form>
+	<script>
+	//jQuery ajax提交表单数据；
+//		$(function(){
+//			function submit(){
+//				var data = $('.form').serialize();
+//				$.ajax({
+//					url: '/user',
+//					data: data,
+//					type: 'GET',
+//					beforeSend: function(){
+//						if(!isName($.trim($('.name').val()))){
+//							LM.alert.Wechat('请输入正确的姓名')
+//							return false;
+//						}
+//						if(!isMobile($.trim($('.phone').val()))){
+//							LM.alert.Wechat('请输入正确的手机号码')
+//							return false;
+//						}
+//					},
+//					success: function(res){
+//						if(res.code == '2000'){
+//							console.log('请求成功！')
+//						}
+//						else{
+//							console.log('请求失败！')
+//						}
+//					}
+//				})
+//			}	
+//			$('.submit').click(function(){
+//				return submit();
+//			})
+//		})
+$(function(){
+	//原生ajax提交
+			var submit = function(){
+			var name = document.getElementById('name').value;
+			var phone = document.getElementById('phone').value;
+			var data = {
+				'name':name,
+				'phone': phone
+			}
+			if(!isName(name)){
+					LM.alert.Wechat('请输入正确的姓名')
+					return false;
+			};
+			if(!isMobile(phone)){
+					LM.alert.Wechat('请输入正确的手机号码')
+					return false;
+			};
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "/user", true); //请求方法 地址 是否异步
+			xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded"); //设置请求头；
+			console.log(xhr);
+			xhr.onreadystatechange = function(){
+	    var XMLHttpReq = xhr;
+		    if (XMLHttpReq.readyState == 4) {
+		        if (XMLHttpReq.status == 200) {
+		            var text = XMLHttpReq.responseText;
+		            console.log(text);
+		        }
+	    	}
+			}
+			xhr.send(data);
+		}
+		var btn = document.getElementsByClassName('submit')[0];
+		console.log(btn);
+		btn.addEventListener('click',submit);		
+		})			
+	</script>
 </body>
 </html>
+<!--form表单默认是get请求，请求的参数在url里面-->
